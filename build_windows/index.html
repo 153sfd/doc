@@ -354,8 +354,18 @@ git<span class="w"> </span>clone<span class="w"> </span>https://OpenHUTB:T8w6TYB
 </div>
 <p><strong>2.</strong> <strong>编译服务端</strong>:</p>
 <p>以下命令编译并启动虚幻引擎。每次您想要启动服务器或使用虚幻引擎编辑器时运行此命令：</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>launch
+<div class="highlight"><pre><span></span><code><span class="c1"># make launch</span>
+setup.bat<span class="w"> </span>-l
 </code></pre></div>
+<p><strong>注意</strong> ：</p>
+<ul>
+<li>
+<p>如果需要生成 Unreal\CarlaUE4\CarlaUE4.sln，则运行 setup.bat -g，解决右键 CarlaUE4.uproject 生成工程文件报错：Missing D:/hutb/Build/engine/Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.exe after build。</p>
+</li>
+<li>
+<p>直接从 VS 启动调试弹出命令行报错：No platforms specified for target，则需要重新生成</p>
+</li>
+</ul>
 <p><img alt="" src="../img/build/make_launch.png"></p>
 <ul>
 <li><strong>问题一</strong>：</li>
