@@ -299,8 +299,17 @@ __2.__ __编译服务端__:
 以下命令编译并启动虚幻引擎。每次您想要启动服务器或使用虚幻引擎编辑器时运行此命令：
 
 ```sh
-make launch
+# make launch
+setup.bat -l
 ```
+
+**注意** ：
+
+* 如果需要生成 Unreal\CarlaUE4\CarlaUE4.sln，则运行 setup.bat -g，解决右键 CarlaUE4.uproject 生成工程文件报错：Missing D:/hutb/Build/engine/Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.exe after build。
+
+* 直接从 VS 启动调试弹出命令行报错：No platforms specified for target，则需要重新生成
+
+
 
 ![](./img/build/make_launch.png)
 
