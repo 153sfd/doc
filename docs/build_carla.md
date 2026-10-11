@@ -76,6 +76,8 @@ explorer "%LOCALAPPDATA%\Steam++\Plugins\Accelerator\Settings"
 
 保存两个文件后，重新启动 Steam++。不手动切换页面或点击加速按钮，检查软件是否自动进入“网页加速”页面，并自动开启加速。
 
+**笔记**： 如果本地安装了 VMware，启动 Github 加速时会出现端口 443 被占用的异常。解决：运行`services.msc`，将服务`VMware Workstation Server`停止，并改为手动启动。
+
 ### Github 访问加速
 
 有时候 Github 访问不了，可以下载并运行 [链接](https://gitee.com/OpenHUTB/sw/releases/tag/up) 中对应平台的软件（比如 Windows 平台中下载 [fastgithub-win-x64.zip](https://gitee.com/OpenHUTB/software/releases/download/speed_up_github/fastgithub-win-x64.zip) 解压后运行`FastGithub.UI.exe`即可正常访问Github）。
