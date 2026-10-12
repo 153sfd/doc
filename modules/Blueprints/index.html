@@ -190,15 +190,18 @@ MeshName<span class="w"> </span><span class="o">(</span>FName<span class="o">)</
 <p>目录创建逻辑被注释（PlatformFile.CreateDirectory），需手动启用。</p>
 <p>需确保材质实例有效，否则记录错误日志。</p>
 </div>
-<h2 id="23-gettransversemercprojection">2.3 GetTransversemercProjection</h2>
+<h2 id="23-gettransversemercprojection">2.3 GetTransverseMercProjection</h2>
 <p>功能：将经纬度坐标转换为引擎内的平面墨卡托投影坐标（单位：厘米）。
 示例：
-</p><div class="highlight"><pre><span></span><code><span class="n">FVector2D</span><span class="w"> </span><span class="n">Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UMapGenFunctionLibrary</span><span class="o">::</span><span class="n">GetTransversemercProjection</span><span class="p">(</span><span class="mf">39.9</span><span class="p">,</span><span class="w"> </span><span class="mf">116.4</span><span class="p">,</span><span class="w"> </span><span class="mf">39.9</span><span class="p">,</span><span class="w"> </span><span class="mf">116.4</span><span class="p">);</span><span class="w">  </span>
-<span class="c1">// 输出: (0, 0)（原点坐标）</span>
+</p><div class="highlight"><pre><span></span><code><span class="n">FVector2D</span><span class="w"> </span><span class="n">Position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UMapGenFunctionLibrary</span><span class="o">::</span><span class="n">GetTransverseMercProjection</span><span class="p">(</span><span class="mf">39.9</span><span class="p">,</span><span class="w"> </span><span class="mf">116.4</span><span class="p">,</span><span class="w"> </span><span class="mf">39.9</span><span class="p">,</span><span class="w"> </span><span class="mf">116.4</span><span class="p">);</span><span class="w">  </span>
+<span class="c1">// 输出: (0, 0)（原点坐标） </span>
 </code></pre></div>
 <h2 id="24">2.4 辅助函数</h2>
 <div class="highlight"><pre><span></span><code>SetThreadToSleep
-功能：使当前线程休眠指定秒数（需取消注释<span class="w"> </span>FGenericPlatformProcess::Sleep）。
+功能：使当前线程休眠指定秒数。
+参数：
+-<span class="w"> </span>Seconds<span class="w"> </span><span class="o">(</span>float<span class="o">)</span>：休眠时间，单位秒。
+
 
 FlushRenderingCommandsInBlueprint
 功能：强制刷新渲染命令队列，确保图形操作完成。
@@ -207,42 +210,43 @@ CleanupGEngine
 功能：执行垃圾回收并清理编辑器事务（仅编辑器模式下生效）。
 </code></pre></div>
 <h1 id="3">3. 关键数据结构</h1>
-<p>FProceduralCustomMesh
-成员：
-</p><div class="highlight"><pre><span></span><code>Vertices<span class="w"> </span><span class="o">(</span>TArray&lt;FVector&gt;<span class="o">)</span>:<span class="w"> </span>顶点坐标数组。
-
-Triangles<span class="w"> </span><span class="o">(</span>TArray&lt;int32&gt;<span class="o">)</span>:<span class="w"> </span>三角形索引数组。
-
-Normals<span class="w"> </span>/<span class="w"> </span>UV0<span class="w"> </span><span class="o">(</span>TArray&lt;FVector&gt;<span class="o">)</span>:<span class="w"> </span>法线与UV数据。
-</code></pre></div>
-<h1 id="4">4. 使用示例</h1>
-<p>生成静态网格
+<p>成员：</p>
+<ul>
+<li><code>Vertices</code> (<code>TArray&lt;FVector&gt;</code>)：顶点坐标数组，引擎坐标系（单位：厘米）。</li>
+<li><code>Triangles</code> (<code>TArray&lt;int32&gt;</code>)：三角形索引数组，顶点顺序为顺时针时代表正面。</li>
+<li><code>Normals</code> (<code>TArray&lt;FVector&gt;</code>)：逐顶点法线，应与 <code>Vertices</code> 一一对应。</li>
+<li><code>UV0</code> (<code>TArray&lt;FVector2D&gt;</code>)：第一套 UV 坐标，每个元素为 <code>(U, V)</code>，范围通常为 <code>[0, 1]</code>。</li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li><code>UV0</code> 使用 <code>FVector2D</code> 而非 <code>FVector</code>，传入 <code>FVector</code> 将导致编译错误。</li>
+<li><code>Normals</code> 数组若为空，网格描述仍可生成，但光照结果可能异常，建议始终填充。
+<div class="highlight"><pre><span></span><code># 4. 使用示例
+生成静态网格
 cpp
- 1. 准备数据
-</p><div class="highlight"><pre><span></span><code>FProceduralCustomMesh<span class="w"> </span>Data<span class="p">;</span><span class="w">   </span>
-Data.Vertices<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>FVector<span class="o">(</span><span class="m">0</span>,0,0<span class="o">)</span>,<span class="w"> </span>FVector<span class="o">(</span><span class="m">100</span>,0,0<span class="o">)</span>,<span class="w"> </span>FVector<span class="o">(</span><span class="m">0</span>,100,0<span class="o">)</span><span class="w"> </span><span class="o">}</span><span class="p">;</span><span class="w">  </span>
-Data.Triangles<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="m">0</span>,<span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">}</span><span class="p">;</span><span class="w">   </span>
-Data.Normals<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>FVector<span class="o">(</span><span class="m">0</span>,0,1<span class="o">)</span>,<span class="w"> </span>FVector<span class="o">(</span><span class="m">0</span>,0,1<span class="o">)</span>,<span class="w"> </span>FVector<span class="o">(</span><span class="m">0</span>,0,1<span class="o">)</span><span class="w"> </span><span class="o">}</span><span class="p">;</span><span class="w">   </span>
-</code></pre></div>
-<ol>
-<li>
-<p>创建材质实例  <br>
-</p><div class="highlight"><pre><span></span><code>UMaterialInstance*<span class="w"> </span><span class="nv">Material</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>LoadObject&lt;UMaterialInstance&gt;<span class="o">(</span>...<span class="o">)</span><span class="p">;</span><span class="w"> </span>
-</code></pre></div>
-</li>
-<li>
-<p>生成网格  </p>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><code>UStaticMesh*<span class="w"> </span><span class="nv">Mesh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>UMapGenFunctionLibrary::CreateMesh<span class="o">(</span><span class="w">  </span>
-<span class="w">    </span>Data,<span class="w">  </span>
-<span class="w">    </span>TArray&lt;FProcMeshTangent&gt;<span class="o">()</span>,<span class="w">  </span>
-<span class="w">    </span>Material,<span class="w">  </span>
-<span class="w">    </span><span class="s2">"TestMap"</span>,<span class="w">  </span>
-<span class="w">    </span><span class="s2">"Roads"</span>,<span class="w">  </span>
-<span class="w">    </span><span class="s2">"RoadMesh"</span><span class="w">  </span>
-<span class="o">)</span><span class="p">;</span>
-</code></pre></div>
+ // 1. 准备数据
+FProceduralCustomMesh Data;   
+Data.Vertices = { FVector(0,0,0), FVector(100,0,0), FVector(0,100,0) };  
+Data.Triangles = { 0, 1, 2 };   
+Data.Normals = { FVector(0,0,1), FVector(0,0,1), FVector(0,0,1) };   
+
+// 2. 创建材质实例    
+UMaterialInstance* Material = LoadObject&lt;UMaterialInstance&gt;(
+    nullptr, 
+    TEXT("/Game/Materials/MI_Road.MI_Road") // 替换为实际材质路径
+); 
+
+// 3. 生成网格  
+UStaticMesh* Mesh = UMapGenFunctionLibrary::CreateMesh(  
+    Data,  
+    TArray&lt;FProcMeshTangent&gt;(),  
+    Material,  
+    "TestMap",  
+    "Roads",  
+    "RoadMesh"  
+);
+</code></pre></div></li>
+</ul>
 <h1 id="5">5. 注意事项</h1>
 <ul>
 <li>
