@@ -6,6 +6,17 @@ title: 主页
 
 <!-- 参考：https://github.com/squidfunk/mkdocs-material/issues/6845#issuecomment-2192879200 -->
 /// html | div[style='float: left; width: 50%;']
+* __具身人__
+    * [行为交互](interbehavior.md)
+    * [行人导航](tuto_G_pedestrian_navigation.md)
+    * [生成行人导航](tuto_M_generate_pedestrian_navigation.md)
+    * [控制行人骨架](tuto_G_control_walker_skeletons.md)
+    * [行人建模](tuto_content_authoring_pedestrians.md)
+    * [行人视觉](tuto_G_pedestrian_visual.md)
+    * [自行车](pedestrian/cycle.md)
+    * [具身人模拟示例](pedestrian/humanoid.md)
+    * [行人实现分析](pedestrian/blueprint.md)
+    * [Mujoco 插件](https://openhutb.github.io/mujoco_plugin/)
 * __载具__
     * [无人车](vehicle.md)
     * [无人机](https://openhutb.github.io/air_doc/dev/Carla_Air/)
