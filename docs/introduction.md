@@ -1,6 +1,13 @@
 **入门示例**
 
-1. 下载 [链接](https://pan.baidu.com/s/1n2fJvWff4pbtMe97GOqtvQ?pwd=hutb) 中的 software/hutb/hutb_car_vr_air_mujoco.zip，解压运行 CarlaUE4.exe 启动场景，按 W、S、A、D 键进行场景浏览；
+1. 在终端运行下面命令下载模拟器：
+	```shell
+	# Windows 系统的下载命令，运行 StartOpenHUTB.bat 启动模拟器，运行 StopOpenHUTB.bat 停止模拟器
+	curl -fsSL -o dl.bat https://openhutb.github.io/dl.bat && dl.bat
+
+	# Ubuntu 系统的下载命令，运行 CarlaUE4.sh 启动模拟器
+	curl -fsSL -o dl.sh https://openhutb.github.io/dl.sh && chmod +x dl.sh && ./dl.sh
+	```
 
 2. 安装特定 Python 版本的功能包：`pip install PythonAPI/carla/dist/hutb-*.whl`（或者使用`pip install hutb` 安装 ），然后运行 [PythonAPI/examples](https://github.com/OpenHUTB/hutb/tree/hutb/PythonAPI/examples) 中的脚本（如果运行报错，请参考 [解决方法](faq/use_faq.md)）：
 
