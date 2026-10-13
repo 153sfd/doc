@@ -103,7 +103,13 @@
                 <div><p><strong>入门示例</strong></p>
 <ol>
 <li>
-<p>下载 <a href="https://pan.baidu.com/s/1n2fJvWff4pbtMe97GOqtvQ?pwd=hutb">链接</a> 中的 software/hutb/hutb_car_vr_air_mujoco.zip，解压运行 CarlaUE4.exe 启动场景，按 W、S、A、D 键进行场景浏览；</p>
+<p>在终端运行下面命令下载模拟器：
+    </p><div class="highlight"><pre><span></span><code><span class="c1"># Windows 系统的下载命令，运行 StartOpenHUTB.bat 启动模拟器，运行 StopOpenHUTB.bat 停止模拟器</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>-o<span class="w"> </span>dl.bat<span class="w"> </span>https://openhutb.github.io/dl.bat<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dl.bat
+
+<span class="c1"># Ubuntu 系统的下载命令，运行 CarlaUE4.sh 启动模拟器</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>-o<span class="w"> </span>dl.sh<span class="w"> </span>https://openhutb.github.io/dl.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>dl.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./dl.sh
+</code></pre></div>
 </li>
 <li>
 <p>安装特定 Python 版本的功能包：<code>pip install PythonAPI/carla/dist/hutb-*.whl</code>（或者使用<code>pip install hutb</code> 安装 ），然后运行 <a href="https://github.com/OpenHUTB/hutb/tree/hutb/PythonAPI/examples">PythonAPI/examples</a> 中的脚本（如果运行报错，请参考 <a href="../faq/use_faq/">解决方法</a>）：</p>
